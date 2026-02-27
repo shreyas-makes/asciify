@@ -1166,19 +1166,20 @@ export default function Home() {
           <main className="grid gap-4 lg:grid-cols-[300px_minmax(720px,1fr)]">
             <section className={`${designClasses.panel} p-4`}>
               <h2 className={`${designClasses.sectionTitle} mb-3`}>Palette</h2>
-              <div className="grid grid-cols-4 gap-2">
+              <div className="grid grid-cols-3 gap-2">
                 {PRIMITIVES.map((primitive) => {
                   return (
                     <Button
                       key={primitive.kind}
                       variant="outline"
-                      className={`h-10 min-w-0 px-0 ${designClasses.buttonSoft}`}
+                      className={`h-16 min-w-0 flex-col gap-1 px-1 py-2 ${designClasses.buttonSoft}`}
                       onClick={() => placeOrSelectNode(primitive.kind)}
                       disabled={!canEdit}
                       aria-label={`Add ${primitive.name}`}
                       title={primitive.name}
                     >
-                      <PrimitiveGlyph kind={primitive.kind} className="size-[18px]" />
+                      <PrimitiveGlyph kind={primitive.kind} className="size-7" />
+                      <span className="text-[10px] leading-none">{primitive.name}</span>
                     </Button>
                   )
                 })}

@@ -1,72 +1,105 @@
 # Asciify
 
-A modern full-stack starter application with Rails backend and React frontend using Inertia.js based on the [Laravel Starter Kit](https://github.com/laravel/react-starter-kit).
+Design flows like code.
 
-## Features
+Asciify is an ASCII-first diagram studio for builders who think in systems.  
+Instead of polished pixels that go stale, you sketch with primitives, share instantly, and export clean Markdown that your team can actually version, diff, review, and ship.
 
-- [Inertia Rails](https://inertia-rails.dev) & [Vite Rails](https://vite-ruby.netlify.app) setup
-- [React](https://react.dev) frontend with TypeScript & [shadcn/ui](https://ui.shadcn.com) component library
-- User authentication system (based on [Authentication Zero](https://github.com/lazaronixon/authentication-zero))
-- [Kamal](https://kamal-deploy.org/) for deployment
-- Optional SSR support
+If this clicks for you, please star the repo to help more teams discover ASCII-native product design.
 
-See also:
-- [Svelte Starter Kit](https://github.com/inertia-rails/svelte-starter-kit) for Inertia Rails with Svelte
-- [Vue Starter Kit](https://github.com/inertia-rails/vue-starter-kit) for Inertia Rails with Vue
+## Why this exists
 
-<a href="https://evilmartians.com/?utm_source=inertia-rails-asciify&utm_campaign=project_page">
-<img src="https://evilmartians.com/badges/sponsored-by-evil-martians.svg" alt="Built by Evil Martians" width="236" height="54">
-</a>
+Most wireframes die in screenshots.
 
-## Setup
+Asciify keeps ideas alive as text:
+- Fast enough for ideation
+- Structured enough for engineering handoff
+- Lightweight enough for docs, PRs, RFCs, and tickets
 
-1. Clone this repository
-2. Setup dependencies & run the server:
-   ```bash
-   bin/setup
-   ```
-3. Open http://localhost:3000
+The result is less design drift between product thinking and implementation.
 
-## Enabling SSR
+## What you can do
 
-This starter kit comes with optional SSR support. To enable it, follow these steps:
+- Build UI and flow diagrams with ASCII primitives (cards, modals, inputs, nav, arrows, decisions, notes, and more)
+- Move from canvas to Markdown in one click
+- Autosave as guest, then claim your draft after sign-in
+- Share drafts with `view` or `edit` permissions
+- Keep deterministic output so diffs stay clean and predictable
 
-1. Open `app/frontend/entrypoints/inertia.ts` and uncomment part of the `setup` function:
-   ```ts
-   // Uncomment the following to enable SSR hydration:
-   // if (el.hasChildNodes()) {
-   //   hydrateRoot(el, createElement(App, props))
-   //   return
-   // }
-   ```
-2. Open `config/deploy.yml` and uncomment several lines:
-   ```yml
-   servers:
-     # Uncomment to enable SSR:
-     # vite_ssr:
-     #   hosts:
-     #     - 192.168.0.1
-     #   cmd: bundle exec vite ssr
-     #   options:
-     #     network-alias: vite_ssr
-      
-   # ...
-      
-   env:
-     clear:
-       # Uncomment to enable SSR:
-       # INERTIA_SSR_ENABLED: true
-       # INERTIA_SSR_URL: "http://vite_ssr:13714"
-      
-   # ...
-      
-   builder:
-     # Uncomment to enable SSR:
-     # dockerfile: Dockerfile-ssr
-   ```
-   
-That's it! Now you can deploy your app with SSR support.
+## Examples of what Asciify makes possible
+
+1. Sketch a feature flow directly in an RFC:
+```text
++------------------+      +------------------+      +------------------+
+|   LANDING PAGE   |----->|   SIGN-IN FORM   |----->|   USER DASHBOARD |
++------------------+      +------------------+      +------------------+
+```
+
+2. Define a decision path before writing code:
+```text
+         /------------\
+        / Is user new? \
+        \              /
+         \------------/
+            |      |
+          yes      no
+            v      v
+      +-----------+  +----------------+
+      | Onboarding|  | Existing Home  |
+      +-----------+  +----------------+
+```
+
+3. Keep planning artifacts in git with markdown export:
+````md
+# Asciify Draft
+
+```text
+<your rendered diagram here>
+```
+````
+
+## Built for product + engineering teams
+
+- PMs: shape requirements without heavyweight design tooling
+- Designers: communicate structure and intent early
+- Engineers: ship from concrete, reviewable specs
+- Founders: go from idea to shareable system map in minutes
+
+## Tech stack
+
+- Ruby on Rails backend
+- React + TypeScript frontend (Inertia.js)
+- Vite build tooling
+- shadcn/ui components
+- Draft persistence with optimistic versioning and conflict detection
+
+## Quick start
+
+```bash
+bin/setup
+```
+
+Then open: `http://localhost:3000`
+
+`bin/setup` installs gems, installs npm packages, prepares the database, and boots the dev servers.
+
+## Dev commands
+
+- `bin/dev` - run Rails + Vite
+- `npm run test:ascii` - run renderer behavior checks
+- `npm run lint` - run frontend lint checks
+- `npm run check` - run TypeScript checks
+
+## Sharing model
+
+- Guests can create and autosave drafts using a secure guest token
+- Signed-in users can claim guest drafts
+- Shared links support `view` (read-only) and `edit` (collaborative editing) permissions
+
+## Deployment
+
+This app includes Kamal configuration (`config/deploy.yml`) for containerized deployment.
 
 ## License
 
-The project is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
+[MIT](https://opensource.org/licenses/MIT)
