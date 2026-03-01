@@ -1,5 +1,5 @@
 
-<img width="1536" height="1024" alt="Github Banner Creation" src="https://github.com/user-attachments/assets/b33ba7dc-782f-469e-86ba-b49bcd5f3967" />
+<img width="1536" height="1024" alt="ASCII Wireframe Banner Mar 1 2026" src="https://github.com/user-attachments/assets/17e6dbfd-d081-4ba3-81c2-15a96f5d7346" />
 
 # Asciify
 
