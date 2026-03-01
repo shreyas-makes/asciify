@@ -54,6 +54,8 @@
   "scripts": {
     "check": "tsc -p tsconfig.app.json && tsc -p tsconfig.node.json",
     "test:ascii": "node scripts/test-ascii-renderer.mjs",
+    "test:canvas": "node scripts/test-canvas-interactions.mjs",
+    "test": "npm run test:ascii && npm run test:canvas",
     "lint": "eslint '*.{js,mjs,cjs,ts}' app/frontend --report-unused-disable-directives --max-warnings 0",
     "lint:fix": "npm run lint -- --fix",
     "format": "prettier --check 'app/frontend' '*.{js,mjs,cjs,ts}'",

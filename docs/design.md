@@ -21,8 +21,10 @@ All UI styling must flow through semantic tokens defined in `app/frontend/entryp
 - `--app-muted`: subdued text color
 - `--surface-1`: default panel background
 - `--surface-2`: inset / secondary panel background
-- `--surface-strong`: dark panel background for canvas-heavy sections
+- `--surface-strong`: high-contrast panel background for emphasized modules (not default canvas)
 - `--surface-strong-ink`: text on strong surfaces
+- `--canvas-bg`: default ASCII canvas background
+- `--canvas-dot`: dotted grid point color for canvas surfaces
 - `--line`: default border
 - `--line-strong`: emphasized border
 - `--accent`: primary action color (maps to vivid-tangerine)
@@ -47,16 +49,16 @@ Use `designClasses` from `app/frontend/design-system/index.ts`.
 - `page`: full-page background + foreground baseline
 - `shell`: top-level shell containers
 - `panel`: default tactile panel
-- `panelStrong`: dark/high-emphasis panel
+- `panelStrong`: high-emphasis panel
 - `kicker`: tiny uppercase section pre-title
 - `sectionTitle`: section heading style
 - `muted`: subdued text
 - `inset`: nested/inset content block
 - `buttonSoft`: neutral secondary button
 - `buttonStrong`: primary CTA button
-- `buttonDark`: button style on strong/dark surfaces
+- `buttonDark`: button style on high-contrast surfaces
 - `canvasWrap`: outer ASCII canvas surface
-- `canvasBoard`: inner scrollable canvas board
+- `canvasBoard`: inner scrollable canvas board with dotted grid on light background
 
 ## 5. Interaction Color Semantics
 
@@ -86,3 +88,4 @@ Use `designClasses` from `app/frontend/design-system/index.ts`.
 - Layout shells and page panels use shared classes.
 - Typography choices stay within system defaults.
 - Dashboard and canvas surfaces remain visually consistent.
+- ASCII workspace remains light-first with dotted-grid canvas by default.

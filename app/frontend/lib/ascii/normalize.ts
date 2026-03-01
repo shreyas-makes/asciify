@@ -7,12 +7,12 @@ const MIN_SIZE_BY_KIND: Record<PrimitiveKind, { w: number; h: number }> = {
   modal: { w: 20, h: 8 },
   nav: { w: 16, h: 3 },
   text: { w: 8, h: 1 },
-  line: { w: 6, h: 1 },
-  arrow: { w: 6, h: 1 },
-  "dashed-line": { w: 6, h: 1 },
-  "dashed-arrow": { w: 6, h: 1 },
-  "double-arrow": { w: 7, h: 1 },
-  "bidirectional-connector": { w: 7, h: 1 },
+  line: { w: 1, h: 1 },
+  arrow: { w: 1, h: 1 },
+  "dashed-line": { w: 1, h: 1 },
+  "dashed-arrow": { w: 1, h: 1 },
+  "double-arrow": { w: 1, h: 1 },
+  "bidirectional-connector": { w: 1, h: 1 },
   junction: { w: 3, h: 3 },
   decision: { w: 9, h: 5 },
   io: { w: 12, h: 3 },
@@ -55,6 +55,22 @@ export function normalizeNodes(nodes: CanvasNode[], options: RenderOptions): Can
       w,
       h,
       z: Math.trunc(node.z),
+      startX:
+        typeof node.startX === "number"
+          ? clamp(Math.trunc(node.startX), 0, maxX)
+          : undefined,
+      startY:
+        typeof node.startY === "number"
+          ? clamp(Math.trunc(node.startY), 0, maxY)
+          : undefined,
+      endX:
+        typeof node.endX === "number"
+          ? clamp(Math.trunc(node.endX), 0, maxX)
+          : undefined,
+      endY:
+        typeof node.endY === "number"
+          ? clamp(Math.trunc(node.endY), 0, maxY)
+          : undefined,
       label: label.length > 0 ? label : OPTIONAL_LABEL_KINDS.has(node.kind) ? "" : node.kind.toUpperCase(),
     }
   })

@@ -1,3 +1,13 @@
-<svg width="512" height="512" xmlns="http://www.w3.org/2000/svg">
-  <circle cx="256" cy="256" r="256" fill="red"/>
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <rect width="512" height="512" rx="96" fill="#f7f3ea" />
+  <text
+    x="256"
+    y="286"
+    text-anchor="middle"
+    fill="#221d16"
+    font-family="JetBrains Mono, ui-monospace, SFMono-Regular, Menlo, monospace"
+    font-size="52"
+  >
+    ¯\_(ツ)_/¯
+  </text>
 </svg>

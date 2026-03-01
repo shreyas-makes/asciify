@@ -156,6 +156,48 @@ assert.match(solidDoubleArrow, /<------->/, "bidirectional connector should rend
 assert.match(dashedDoubleArrow, /<[- ]+>/, "double-arrow should render as dashed double arrow")
 assert.notEqual(solidDoubleArrow, dashedDoubleArrow, "solid and dashed double-arrow variants should differ")
 
+const diagonalConnector = renderAscii(
+  [
+    {
+      id: "diag-line",
+      kind: "line",
+      label: "",
+      x: 5,
+      y: 5,
+      w: 7,
+      h: 7,
+      z: 1,
+      startX: 5,
+      startY: 5,
+      endX: 11,
+      endY: 11,
+    },
+  ],
+  options,
+)
+assert.match(diagonalConnector, /\\/, "endpoint-defined connectors should render diagonals")
+
+const verticalArrowFromEndpoints = renderAscii(
+  [
+    {
+      id: "vertical-arrow",
+      kind: "arrow",
+      label: "",
+      x: 8,
+      y: 2,
+      w: 1,
+      h: 7,
+      z: 1,
+      startX: 8,
+      startY: 2,
+      endX: 8,
+      endY: 8,
+    },
+  ],
+  options,
+)
+assert.match(verticalArrowFromEndpoints, /v/, "endpoint arrows should place directionally correct arrowheads")
+
 const primitiveKinds = [
   "button",
   "input",

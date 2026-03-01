@@ -45,6 +45,74 @@ function drawBox(grid: string[][], left: number, right: number, top: number, bot
   }
 }
 
+function connectorEndpoints(node: CanvasNode) {
+  if (
+    typeof node.startX === "number" &&
+    typeof node.startY === "number" &&
+    typeof node.endX === "number" &&
+    typeof node.endY === "number"
+  ) {
+    return {
+      x1: node.startX,
+      y1: node.startY,
+      x2: node.endX,
+      y2: node.endY,
+    }
+  }
+
+  if (node.w >= node.h) {
+    const y = node.y + Math.floor(node.h / 2)
+    return { x1: node.x, y1: y, x2: node.x + node.w - 1, y2: y }
+  }
+
+  const x = node.x + Math.floor(node.w / 2)
+  return { x1: x, y1: node.y, x2: x, y2: node.y + node.h - 1 }
+}
+
+function arrowHeadChar(fromX: number, fromY: number, toX: number, toY: number) {
+  const dx = toX - fromX
+  const dy = toY - fromY
+  if (Math.abs(dx) >= Math.abs(dy)) {
+    return dx >= 0 ? ">" : "<"
+  }
+  return dy >= 0 ? "v" : "^"
+}
+
+function segmentChar(x1: number, y1: number, x2: number, y2: number) {
+  const dx = x2 - x1
+  const dy = y2 - y1
+  if (dx === 0) return "|"
+  if (dy === 0) return "-"
+  return dx * dy > 0 ? "\\" : "/"
+}
+
+function bresenhamPoints(x1: number, y1: number, x2: number, y2: number) {
+  const points: { x: number; y: number }[] = []
+  let x = x1
+  let y = y1
+  const dx = Math.abs(x2 - x1)
+  const dy = Math.abs(y2 - y1)
+  const sx = x1 < x2 ? 1 : -1
+  const sy = y1 < y2 ? 1 : -1
+  let err = dx - dy
+
+  while (true) {
+    points.push({ x, y })
+    if (x === x2 && y === y2) break
+    const e2 = err * 2
+    if (e2 > -dy) {
+      err -= dy
+      x += sx
+    }
+    if (e2 < dx) {
+      err += dx
+      y += sy
+    }
+  }
+
+  return points
+}
+
 function paintNode(grid: string[][], node: CanvasNode) {
   const left = node.x
   const right = node.x + node.w - 1
@@ -52,37 +120,74 @@ function paintNode(grid: string[][], node: CanvasNode) {
   const bottom = node.y + node.h - 1
   const label = node.label.trim()
 
-  if (node.kind === "dashed-line") {
-    const y = top + Math.floor(node.h / 2)
-    for (let x = left; x <= right; x += 1) {
-      put(grid, x, y, (x - left) % 2 === 0 ? "-" : " ")
-    }
-    const labelY = top > 0 ? top - 1 : bottom + 1 < grid.length ? bottom + 1 : y
-    putCenteredText(grid, left, right, labelY, label)
-    return
-  }
+  if (
+    node.kind === "line" ||
+    node.kind === "arrow" ||
+    node.kind === "dashed-line" ||
+    node.kind === "dashed-arrow" ||
+    node.kind === "double-arrow" ||
+    node.kind === "bidirectional-connector"
+  ) {
+    const { x1, y1, x2, y2 } = connectorEndpoints(node)
+    const points = bresenhamPoints(x1, y1, x2, y2)
+    const dashed =
+      node.kind === "dashed-line" ||
+      node.kind === "dashed-arrow" ||
+      node.kind === "double-arrow"
 
-  if (node.kind === "dashed-arrow") {
-    const y = top + Math.floor(node.h / 2)
-    for (let x = left; x < right; x += 1) {
-      put(grid, x, y, (x - left) % 2 === 0 ? "-" : " ")
-    }
-    put(grid, right, y, ">")
-    const labelY = top > 0 ? top - 1 : bottom + 1 < grid.length ? bottom + 1 : y
-    putCenteredText(grid, left, right, labelY, label)
-    return
-  }
+    for (let index = 0; index < points.length; index += 1) {
+      const point = points[index]
+      if (!point) continue
+      const isStart = index === 0
+      const isEnd = index === points.length - 1
+      if (isStart || isEnd) continue
+      if (dashed && index % 2 === 1) continue
 
-  if (node.kind === "double-arrow" || node.kind === "bidirectional-connector") {
-    const y = top + Math.floor(node.h / 2)
-    put(grid, left, y, "<")
-    for (let x = left + 1; x < right; x += 1) {
-      const dashChar = node.kind === "double-arrow" && (x - left) % 2 === 0 ? " " : "-"
-      put(grid, x, y, dashChar)
+      const next = points[index + 1] ?? point
+      const previous = points[index - 1] ?? point
+      const prevChar = segmentChar(previous.x, previous.y, point.x, point.y)
+      const nextChar = segmentChar(point.x, point.y, next.x, next.y)
+      put(grid, point.x, point.y, prevChar === nextChar ? prevChar : nextChar)
     }
-    put(grid, right, y, ">")
-    const labelY = top > 0 ? top - 1 : bottom + 1 < grid.length ? bottom + 1 : y
-    putCenteredText(grid, left, right, labelY, label)
+
+    if (points.length === 1) {
+      put(grid, x1, y1, "*")
+    } else {
+      const endPrev = points[points.length - 2] ?? { x: x1, y: y1 }
+      const startNext = points[1] ?? { x: x2, y: y2 }
+
+      if (
+        node.kind === "arrow" ||
+        node.kind === "dashed-arrow" ||
+        node.kind === "double-arrow" ||
+        node.kind === "bidirectional-connector"
+      ) {
+        put(grid, x2, y2, arrowHeadChar(endPrev.x, endPrev.y, x2, y2))
+      } else {
+        put(grid, x2, y2, segmentChar(endPrev.x, endPrev.y, x2, y2))
+      }
+
+      if (
+        node.kind === "double-arrow" ||
+        node.kind === "bidirectional-connector"
+      ) {
+        put(grid, x1, y1, arrowHeadChar(startNext.x, startNext.y, x1, y1))
+      } else {
+        put(grid, x1, y1, segmentChar(x1, y1, startNext.x, startNext.y))
+      }
+    }
+
+    const labelLeft = Math.min(x1, x2)
+    const labelRight = Math.max(x1, x2)
+    const labelTop = Math.min(y1, y2)
+    const labelBottom = Math.max(y1, y2)
+    const labelY =
+      labelTop > 0
+        ? labelTop - 1
+        : labelBottom + 1 < grid.length
+          ? labelBottom + 1
+          : labelTop
+    putCenteredText(grid, labelLeft, labelRight, labelY, label)
     return
   }
 
@@ -179,38 +284,6 @@ function paintNode(grid: string[][], node: CanvasNode) {
       put(grid, left + 1, row, "*")
       putText(grid, left + 3, row, item, interiorWidth)
       row += 1
-    }
-    return
-  }
-
-  if (node.kind === "line") {
-    if (node.w >= node.h) {
-      const y = top + Math.floor(node.h / 2)
-      for (let x = left; x <= right; x += 1) put(grid, x, y, "-")
-      const labelY = top > 0 ? top - 1 : bottom + 1 < grid.length ? bottom + 1 : y
-      putCenteredText(grid, left, right, labelY, label)
-    } else {
-      const x = left + Math.floor(node.w / 2)
-      for (let y = top; y <= bottom; y += 1) put(grid, x, y, "|")
-      const labelX = right + 1 < grid[0].length ? right + 1 : Math.max(0, left - label.length - 1)
-      putText(grid, labelX, top + Math.floor(node.h / 2), label, Math.max(0, grid[0].length - labelX))
-    }
-    return
-  }
-
-  if (node.kind === "arrow") {
-    if (node.w >= node.h) {
-      const y = top + Math.floor(node.h / 2)
-      for (let x = left; x < right; x += 1) put(grid, x, y, "-")
-      put(grid, right, y, ">")
-      const labelY = top > 0 ? top - 1 : bottom + 1 < grid.length ? bottom + 1 : y
-      putCenteredText(grid, left, right, labelY, label)
-    } else {
-      const x = left + Math.floor(node.w / 2)
-      for (let y = top; y < bottom; y += 1) put(grid, x, y, "|")
-      put(grid, x, bottom, "v")
-      const labelX = right + 1 < grid[0].length ? right + 1 : Math.max(0, left - label.length - 1)
-      putText(grid, labelX, top + Math.floor(node.h / 2), label, Math.max(0, grid[0].length - labelX))
     }
     return
   }

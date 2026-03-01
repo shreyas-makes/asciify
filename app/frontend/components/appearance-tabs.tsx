@@ -1,4 +1,4 @@
-import { type LucideIcon, Monitor, Moon, Sun } from "lucide-react"
+import { type LucideIcon, Moon, Sun } from "lucide-react"
 import type { HTMLAttributes } from "react"
 
 import { type Appearance, useAppearance } from "@/hooks/use-appearance"
@@ -11,9 +11,8 @@ export default function AppearanceToggleTab({
   const { appearance, updateAppearance } = useAppearance()
 
   const tabs: { value: Appearance; icon: LucideIcon; label: string }[] = [
-    { value: "light", icon: Sun, label: "Light" },
+    { value: "light", icon: Sun, label: "White" },
     { value: "dark", icon: Moon, label: "Dark" },
-    { value: "system", icon: Monitor, label: "System" },
   ]
 
   return (

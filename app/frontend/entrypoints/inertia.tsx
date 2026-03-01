@@ -7,7 +7,7 @@ import { createRoot } from "react-dom/client"
 import { initializeTheme } from "@/hooks/use-appearance"
 import PersistentLayout from "@/layouts/persistent-layout"
 
-const appName = import.meta.env.VITE_APP_NAME ?? "React Starter Kit"
+const appName = import.meta.env.VITE_APP_NAME ?? "¯\\_(ツ)_/¯"
 
 void createInertiaApp({
   // Set default page title

@@ -29,6 +29,10 @@ export interface CanvasNode {
   w: number
   h: number
   z: number
+  startX?: number
+  startY?: number
+  endX?: number
+  endY?: number
 }
 
 export interface RenderOptions {

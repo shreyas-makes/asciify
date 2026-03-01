@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title inertia><%= content_for(:title) || "React Starter Kit" %></title>
+    <title inertia><%= content_for(:title) || "¯\\_(ツ)_/¯" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="application-name" content="React Starter Kit">
+    <meta name="application-name" content="¯\_(ツ)_/¯">
     <meta name="mobile-web-app-capable" content="yes">
     <%= capybara_lockstep if defined?(Capybara::Lockstep) %>
     <%= csrf_meta_tags %>
@@ -15,17 +15,17 @@
     <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
     <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
 
-    <link rel="icon" href="/icon.png" type="image/png">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
 
     <script>
-      <%# Enable dark mode based on localStorage or system preference. Inline to avoid FOUC. %>
-      document.documentElement.classList.toggle(
-        "dark",
-        localStorage.appearance === "dark" ||
-          (!("appearance" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches),
-      );
+      <%# Enable dark mode on first paint, defaulting to dark unless explicitly set to light. %>
+      (() => {
+        const appearance = localStorage.getItem("appearance");
+        const isDark = appearance !== "light";
+        document.documentElement.classList.toggle("dark", isDark);
+        document.documentElement.style.colorScheme = isDark ? "dark" : "light";
+      })();
     </script>
 
     <%= vite_stylesheet_tag "application" %>

@@ -15,14 +15,16 @@
   --brand-red: #ff1b1c;
 
   --app-bg: var(--brand-porcelain);
-  --app-ink: var(--brand-black);
-  --app-muted: #645b4b;
-  --surface-1: #f8f4eb;
-  --surface-2: #f1ebdf;
+  --app-ink: #221d16;
+  --app-muted: #6f6453;
+  --surface-1: #fbf8f1;
+  --surface-2: #f4eee1;
   --surface-strong: #15110a;
   --surface-strong-ink: #fff8ee;
-  --line: #9c8f77;
-  --line-strong: #6f6249;
+  --canvas-bg: #fffefa;
+  --canvas-dot: #e4dbc8;
+  --line: #cfc4af;
+  --line-strong: #ac9b83;
   --accent: var(--brand-vivid-tangerine);
   --accent-ink: #2f1700;
   --danger: var(--brand-red);
@@ -139,11 +141,11 @@
   }
 
   .ds-shell {
-    @apply rounded-2xl border border-[var(--line-strong)] bg-[var(--surface-1)] shadow-[0_8px_0_0_var(--brand-khaki-beige)];
+    @apply rounded-2xl border border-[var(--line)] bg-[var(--surface-1)] shadow-[0_14px_34px_-18px_color-mix(in_oklab,var(--line-strong)_48%,black_52%)];
   }
 
   .ds-panel {
-    @apply rounded-2xl border border-[var(--line-strong)] bg-[var(--surface-1)] shadow-[0_8px_0_0_var(--brand-khaki-beige)];
+    @apply rounded-2xl border border-[var(--line)] bg-[var(--surface-1)] shadow-[0_14px_34px_-18px_color-mix(in_oklab,var(--line-strong)_48%,black_52%)];
   }
 
   .ds-panel-strong {
@@ -151,7 +153,7 @@
   }
 
   .ds-kicker {
-    @apply text-xs tracking-[0.24em] uppercase text-[var(--app-muted)];
+    @apply text-xs tracking-[0.24em] text-[var(--app-muted)] uppercase;
   }
 
   .ds-section-title {
@@ -167,7 +169,7 @@
   }
 
   .ds-btn-soft {
-    @apply border-[var(--line-strong)] bg-[color-mix(in_oklab,var(--surface-1)_90%,white_10%)] text-[var(--app-ink)] hover:bg-[color-mix(in_oklab,var(--surface-2)_86%,white_14%)];
+    @apply border-[var(--line)] bg-[color-mix(in_oklab,var(--surface-1)_90%,white_10%)] text-[var(--app-ink)] hover:bg-[color-mix(in_oklab,var(--surface-2)_84%,white_16%)];
   }
 
   .ds-btn-strong {
@@ -179,10 +181,102 @@
   }
 
   .ds-canvas-wrap {
-    @apply rounded-xl border border-[color-mix(in_oklab,var(--line-strong)_70%,black_30%)] bg-[color-mix(in_oklab,var(--surface-strong)_88%,black_12%)] p-3;
+    @apply rounded-xl border border-[var(--line)] bg-[color-mix(in_oklab,var(--canvas-bg)_95%,white_5%)] p-3;
   }
 
   .ds-canvas-board {
-    @apply relative overflow-auto rounded-lg border border-[color-mix(in_oklab,var(--line-strong)_70%,black_30%)] bg-[color-mix(in_oklab,var(--surface-strong)_88%,black_12%)] p-4;
+    @apply relative overflow-auto rounded-lg border border-[var(--line)] bg-[var(--canvas-bg)] p-4;
+    background-image: radial-gradient(
+      circle at 1px 1px,
+      var(--canvas-dot) 1px,
+      transparent 0
+    );
+    background-size: 16px 16px;
+    background-position: 0 0;
+  }
+
+  .ds-canvas-board-preview {
+    @apply bg-[var(--surface-1)] p-6 md:p-8;
+    background-image: none;
+  }
+
+  .ds-terminal-frame {
+    @apply mx-auto flex h-fit w-fit max-w-full flex-col overflow-hidden rounded-xl border shadow-[0_20px_40px_-26px_rgba(10,8,5,0.68)];
+  }
+
+  .ds-terminal-frame-light {
+    @apply border-[var(--line)] bg-white;
+  }
+
+  .ds-terminal-frame-dark {
+    @apply border-neutral-700 bg-neutral-950;
+  }
+
+  .ds-terminal-chrome {
+    @apply flex items-center gap-1.5 border-b px-3 py-2;
+  }
+
+  .ds-terminal-frame-light .ds-terminal-chrome {
+    @apply border-[var(--line)] bg-[color-mix(in_oklab,var(--surface-2)_82%,white_18%)];
+  }
+
+  .ds-terminal-frame-dark .ds-terminal-chrome {
+    @apply border-neutral-700 bg-neutral-900;
+  }
+
+  .ds-terminal-dot {
+    @apply h-2.5 w-2.5 rounded-full;
+  }
+
+  .ds-terminal-screen {
+    @apply overflow-auto p-4;
+  }
+
+  .ds-terminal-frame-light .ds-terminal-screen {
+    @apply bg-white text-neutral-900;
+  }
+
+  .ds-terminal-frame-dark .ds-terminal-screen {
+    @apply bg-neutral-950 text-neutral-100;
+  }
+
+  .ds-workspace {
+    @apply relative min-h-screen overflow-hidden bg-[radial-gradient(circle_at_20%_15%,color-mix(in_oklab,var(--surface-2)_74%,white_26%)_0%,transparent_48%),radial-gradient(circle_at_85%_12%,color-mix(in_oklab,var(--accent)_14%,white_86%)_0%,transparent_42%),var(--app-bg)] p-2;
+  }
+
+  .ds-floating-topbar {
+    @apply fixed top-3 left-1/2 z-30 flex w-[min(95vw,1040px)] -translate-x-1/2 flex-wrap items-center justify-between gap-3 rounded-2xl border border-[var(--line)] bg-[color-mix(in_oklab,var(--surface-1)_92%,white_8%)] px-4 py-3 shadow-[0_16px_34px_-20px_rgba(48,32,12,0.36)] backdrop-blur-sm;
+  }
+
+  .ds-share-panel {
+    @apply fixed top-[5.3rem] left-1/2 z-30 flex w-[min(95vw,1040px)] -translate-x-1/2 flex-col gap-2 rounded-xl border border-[var(--line)] bg-[color-mix(in_oklab,var(--surface-1)_95%,white_5%)] px-4 py-3 shadow-[0_14px_30px_-18px_rgba(48,32,12,0.32)] backdrop-blur-sm;
+  }
+
+  .ds-canvas-stage {
+    @apply h-[calc(100svh-1rem)] min-h-[420px] w-full md:h-[calc(100vh-1rem)] md:min-h-[560px];
+  }
+
+  .ds-toolbar-dock {
+    @apply fixed bottom-3 left-1/2 z-30 inline-flex max-w-[calc(100vw-1.5rem)] -translate-x-1/2 items-center gap-2 overflow-x-auto rounded-3xl border border-[var(--line)] bg-[color-mix(in_oklab,var(--surface-1)_90%,white_10%)] px-2 py-2 shadow-[0_16px_32px_-20px_rgba(48,32,12,0.46)] backdrop-blur-md md:bottom-4;
+  }
+
+  .ds-toolbar-group {
+    @apply flex items-center gap-1 rounded-2xl border border-[var(--line)] bg-[color-mix(in_oklab,var(--surface-2)_66%,white_34%)] p-1;
+  }
+
+  .ds-tool-btn {
+    @apply h-11 w-11 min-w-11 border-[var(--line)] bg-[color-mix(in_oklab,var(--surface-1)_92%,white_8%)] text-[var(--app-ink)] shadow-[0_1px_0_0_color-mix(in_oklab,var(--line)_72%,white_28%)] hover:bg-white disabled:opacity-45;
+  }
+
+  .ds-tool-btn-strong {
+    @apply bg-[var(--accent)] text-[var(--accent-ink)] hover:bg-[color-mix(in_oklab,var(--accent)_88%,black_12%)];
+  }
+
+  .ds-tool-btn-active {
+    @apply border-[color-mix(in_oklab,var(--accent)_65%,var(--line)_35%)] bg-[color-mix(in_oklab,var(--accent)_22%,white_78%)] text-[var(--app-ink)] shadow-[0_0_0_1px_color-mix(in_oklab,var(--accent)_50%,white_50%)];
+  }
+
+  .ds-popover-panel {
+    @apply absolute bottom-14 left-1/2 z-40 w-[280px] -translate-x-1/2 rounded-2xl border border-[var(--line)] bg-[color-mix(in_oklab,var(--surface-1)_96%,white_4%)] p-3 text-[var(--app-ink)] shadow-[0_20px_38px_-24px_rgba(32,20,8,0.72)];
   }
 }
