@@ -1,3 +1,6 @@
+
+<img width="1536" height="1024" alt="Github Banner Creation" src="https://github.com/user-attachments/assets/b33ba7dc-782f-469e-86ba-b49bcd5f3967" />
+
 # Asciify
 
 Design flows like code.
