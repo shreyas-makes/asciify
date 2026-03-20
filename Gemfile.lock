@@ -80,7 +80,7 @@ GEM
     ast (2.4.3)
     authentication-zero (4.0.3)
     base64 (0.3.0)
-    bcrypt (3.1.21)
+    bcrypt (3.1.22)
     bcrypt_pbkdf (1.1.2)
     bigdecimal (4.0.1)
     bindex (0.8.1)
@@ -424,7 +424,7 @@ PLATFORMS
 
 DEPENDENCIES
   authentication-zero
-  bcrypt (~> 3.1.7)
+  bcrypt (~> 3.1.22)
   bootsnap
   brakeman
   bundler-audit
